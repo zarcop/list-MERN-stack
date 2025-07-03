@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "express": "4.18"
+  },
+  "type" : "module",
+  "scripts":{
+    "dev": "node server.js",
+    "start": "Server Test Number 1"
+  }
+  
+}
