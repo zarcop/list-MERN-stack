@@ -1,28 +1,45 @@
+import Note from "../model/Note.js";
+
+
 export async function getAllNotes(req, res) {
-    res.status(200).send("You just fetched the notes");
+    try {
+        const notes = await Note.find();
+        res.status(200).json(notes);
+    } catch(error) {
+        res.status(500).json({"Internal Server Error when retrieving notes.": error.message});
+    }
 }
 
 export async function createNote(req, res) {
-    // Manual JSON parsing without middleware
-    let body = '';
-    req.on('data', chunk => {
-        body += chunk.toString();
-    });
-    
-    req.on('end', () => {
-        try {
-            const data = JSON.parse(body);
-            res.status(201).json({ message: "The note was created successfully!", data });
-        } catch (error) {
-            res.status(400).json({ error: "Invalid JSON" });
-        }
-    });
+    try {
+        const {title, body} = req.body;
+        const note = new Note({title, content});
+        const savedNote =  await note.save();
+        res.status(201).json(savedNote);
+    } catch (error) {
+        res.status(500).json({ "Internal Server Error when saving notes.": error.message });
+    }
 }
 
 export async function updateNote(req, res) {
-    res.status(200).json({ message: "The note was updated successfully!" });
+    try{
+        const {title, content} = req.body;
+        const updatedNote = await Note.findByIdAndUpdate(req.params.id,{title, content});
+        if (!updateNote) return res.status(404).json({message: "Note not found."});
+        res.status(200).json(updateNote);
+    } catch(error) {
+        res.status(500).json({"Internal Server Error when updating notes.": error.message})
+
+    }
 }
 
 export async function deleteNote(req, res) {
-    res.status(200).json({ message: "The note was deleted successfully!" });
+   try {
+        const {title, cont} = req.body;
+        const deletedNote = await Note.findByIdAndDelete(req.params.id, {title,content});
+        if (!deletedNote) return res.status(404).json({message: "Could not find note to delete"})
+        res.status(200).json(deletedNote);
+   } catch (error) {
+    res.status(500).json({"Internal Server Error when deleting the note" : error.message})
+   }
 }
