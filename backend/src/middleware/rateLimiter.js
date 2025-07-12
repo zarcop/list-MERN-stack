@@ -14,5 +14,6 @@ const rateLimiter = async(req, res, next) => {
         HTMLFormControlsCollection.log("Rate Limit error", error);
         next(error);
     }
-
 }
+
+export default rateLimiter;

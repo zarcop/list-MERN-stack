@@ -2,6 +2,7 @@ import express from "express";
 import notesRoutes from "./routes/routes.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
+import rateLimiter from "./middleware/rateLimiter.js"
 
 dotenv.config();
 
