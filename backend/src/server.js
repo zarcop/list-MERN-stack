@@ -9,11 +9,16 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 console.log("Server is running on port", PORT);
 
-connectDB();
 
 app.use(express.json());
+
+app.use(rateLimiter);
+
+
 app.use("/api/notes", notesRoutes);
 
-app.listen(5001, () => {
-    console.log("Server has been started on port 5001");
+connectDB().then(() => {
+    app.listen(5001, () => {
+        console.log("Server has been started on port 5001");
+    });
 });
