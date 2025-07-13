@@ -14,7 +14,6 @@ const NavBar = () => {
                     <span> New Note</span>
                     </Link>
                 </div>
-
             </div>
 
         </header>
